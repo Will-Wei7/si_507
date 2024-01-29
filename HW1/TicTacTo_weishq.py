@@ -93,12 +93,38 @@ def make_move(player, board):
         the board upon which to move
         the board is modified in place when a valid move is entered
     '''
-    # TODO: Implement function
-    pass
-
+    move = input(player_name(player) + "'s move: ")
+    while move.isdigit() == False or int(move) not in range(1,10):
+        print("Enter a number between 1 and 9.")
+        move = input(player_name(player) + "'s move: ")
+    move = int(move) - 1
+    while board[move] != 0:
+        print("That space is already occupied, try another.")
+        move = input(player_name(player) + "'s move: ")
+        while move.isdigit == False or int(move) not in range(1,10):
+            print("Enter a number between 1 and 9.")
+            move = input(player_name(player) + "'s move: ")
+        move = int(move) - 1
+    board[move] = player
 
 def check_win_horizontal(board):
-    # TODO: write docstring
+    '''Check for a horizontal win in the Tic Tac Toe board.
+
+    This function scans each row of the board to determine if any player has completed
+    a horizontal line. It checks if all three cells in any row are occupied by the same player.
+
+    Parameters
+    ----------
+    board : list
+        The current state of the game board, represented as a list of 9 integers.
+        The integers are 0 (empty), 1 (player X), or 2 (player O).
+
+    Returns
+    -------
+    int
+        The player ID (1 or 2) of the winner if a horizontal win is detected. 
+        Returns 0 if there is no horizontal win.
+    '''
     if (board[0] != 0 and 
         board[0] == board[1] and 
         board[0] == board[2]):
@@ -115,15 +141,66 @@ def check_win_horizontal(board):
 
 
 def check_win_vertical(board):
-    # TODO: write docstring
-    # TODO: implement function
+    '''Check for a vertical win in the Tic Tac Toe board.
+
+    This function examines each column of the board to determine if any player has completed
+    a vertical line. It checks if all three cells in any column are occupied by the same player.
+
+    Parameters
+    ----------
+    board : list
+        The current state of the game board, represented as a list of 9 integers.
+        The integers are 0 (empty), 1 (player X), or 2 (player O).
+
+    Returns
+    -------
+    int
+        The player ID (1 or 2) of the winner if a vertical win is detected. 
+        Returns 0 if there is no vertical win.
+    '''
+    if (board[0] != 0 and 
+        board[0] == board[3] and 
+        board[0] == board[6]):
+        return board[0]
+    if (board[1] != 0 and
+        board[1] == board[4] and 
+        board[1] == board[7]):
+        return board[1]
+    if (board[2] != 0 and
+        board[2] == board[5] and 
+        board[2] == board[8]):
+        return board[2]
     return 0
 
 
 def check_win_diagonal(board):
-    # TODO: write docstring
-    # TODO: implement function
+    '''Check for a diagonal win in the Tic Tac Toe board.
+
+    This function checks the two diagonals of the board to determine if any player has completed
+    a diagonal line. It checks if all three cells in either diagonal are occupied by the same player.
+
+    Parameters
+    ----------
+    board : list
+        The current state of the game board, represented as a list of 9 integers.
+        The integers are 0 (empty), 1 (player X), or 2 (player O).
+
+    Returns
+    -------
+    int
+        The player ID (1 or 2) of the winner if a diagonal win is detected. 
+        Returns 0 if there is no diagonal win.
+    '''
+    if(board[0] != 0 and
+       board[0] == board[4] and
+       board[0] == board[8]):
+        return board[0]
+    if(board[2] != 0 and    
+       board[2] == board[4] and
+       board[2] == board[6]):
+        return board[2]
     return 0
+
 
 
 def check_win(board):
@@ -171,8 +248,11 @@ def next_player(current_player):
     int
         the id of the player to go next
     '''
-    # TODO: Implement function
-    return 2 
+    if current_player == 1:
+        player = 2
+    else:
+        player = 1 
+    return player
 
 # MAIN PROGRAM (INDENT LEVEL 0)
 
@@ -191,6 +271,11 @@ while(moves_left > 0 and winner == 0):
     winner = check_win(board)
     player = next_player(player)
     moves_left -= 1
+    if moves_left == 0:
+        display_board(board)
+
+
+print("Game over! " + PLAYER_NAMES[winner] + " wins!")
 
 
 # TODO: write code to display the correct winner. 
